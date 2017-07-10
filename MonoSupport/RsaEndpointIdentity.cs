@@ -5,13 +5,19 @@ namespace MonoSupport.ServiceModel
 {
     public class RsaEndpointIdentity : System.ServiceModel.RsaEndpointIdentity
     {
-        RSA rsa;
+        static Claim claim;
 
-        public RsaEndpointIdentity(string publicKey) : base((Claim)null)
+        public RsaEndpointIdentity(string publicKey) : base(claim = Claim.CreateRsaClaim(CreateRsa(publicKey)))
         {
-            rsa = new RSACryptoServiceProvider();
+            if (IdentityClaim != null) return;
+            Initialize(claim);
+        }
+
+        static RSA CreateRsa(string publicKey)
+        {
+            var rsa = new RSACryptoServiceProvider();
             rsa.FromXmlString(publicKey);
-            Initialize(Claim.CreateRsaClaim(rsa));
+            return rsa;
         }
     }
 }
