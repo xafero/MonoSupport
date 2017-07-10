@@ -1,2 +1,2 @@
 # MonoSupport
-A library for bridging Mono applications to be more like .NET framework
+A library for making .NET framework applications run like at home on Mono
